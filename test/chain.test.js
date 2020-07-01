@@ -366,7 +366,8 @@ test('abort with rejected promise without error', function(t) {
         {},
         function(err) {
             t.ok(typeof err === 'object');
-            t.equal(err.name, 'AsyncHandlerRejection');
+            t.equal(err.name, 'AsyncHandlerError');
+            t.equal(err.jse_info.cause, undefined);
             t.equal(counter, 1);
             t.done();
         }
