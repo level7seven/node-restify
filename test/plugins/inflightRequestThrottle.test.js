@@ -96,7 +96,6 @@ describe('inlfightRequestThrottle', function() {
             } else {
                 RES = res;
             }
-            next();
         });
         server.listen(0, '127.0.0.1', function() {
             client = restifyClients.createJsonClient({
