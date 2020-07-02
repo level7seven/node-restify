@@ -2983,3 +2983,21 @@ test('async handler without next', function(t) {
         t.equal(res.statusCode, 200);
     });
 });
+
+test('async handler resolved with string should re-route', function(t) {
+    SERVER.get('/hello/:name', async function tester(req, res) {
+        await helper.sleep(10);
+        return 'getredirected';
+    });
+
+    SERVER.get('/redirected', async function tester(req, res) {
+        res.send(req.params.name);
+    });
+
+    CLIENT.get('/hello/mark', function(err, _, res) {
+        t.ok(!err);
+        t.equal(res.statusCode, 200);
+        t.equal(res.body, '"mark"');
+        t.end();
+    });
+});
