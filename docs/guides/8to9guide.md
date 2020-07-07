@@ -11,11 +11,11 @@ restify `9.x` comes with `async/await` support!
 
 ### Drops support for Node.js `8.x`
 
-Restify requires Node.js version `>=10.21.0`. 
+Restify requires Node.js version `>=10.0.0`. 
 
 ### Async/await support
 
-Async/wait basic support for `.pre()`, `.use()` and route handlers.
+`async/await` basic support for `.pre()`, `.use()` and route handlers.
 
 #### Example
 
@@ -85,6 +85,7 @@ server.use(async (req, res) => {
 Handlers expecting more than 2 parameters shouldn't be async functions, as:
 
 ````js
+// This middleware will be rejected and restify will throw
 server.use(async (req, res, next) => {
   doSomethingAsync(function callback(val) {
     req.something = val;
