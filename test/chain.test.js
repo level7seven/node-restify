@@ -361,6 +361,9 @@ test('abort with rejected promise without error', function(t) {
             endHandlerTimer: function() {},
             closed: function() {
                 return false;
+            },
+            path: function() {
+                return '/';
             }
         },
         {},

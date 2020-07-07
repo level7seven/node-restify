@@ -2903,6 +2903,31 @@ test('async prerouting chain with error', function(t) {
     });
 });
 
+test('async prerouting chain with empty rejection', function(t) {
+    SERVER.pre(async function(req, res) {
+        await helper.sleep(10);
+        return Promise.reject();
+    });
+
+    SERVER.get('/hello/:name', function tester(req, res, next) {
+        res.send(req.params.name);
+        next();
+    });
+
+    SERVER.on('Async', function(req, res, err, callback) {
+        t.equal(err.jse_info.cause, undefined);
+        t.equal(err.jse_info.method, 'GET');
+        t.equal(err.jse_info.path, '/hello/mark');
+        callback();
+    });
+
+    CLIENT.get('/hello/mark', function(err, _, res) {
+        t.ok(err);
+        t.equal(res.statusCode, 500);
+        t.end();
+    });
+});
+
 test('async use chain with error', function(t) {
     SERVER.use(async function(req, res) {
         await helper.sleep(10);
